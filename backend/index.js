@@ -41,12 +41,63 @@ app.get('/books', async (req, res) => {
     try {
         const books = await Book.find({});
 
-        return res.status(200).send(books);
+        return res.status(200).send({
+            count : books.length,
+            data : books
+        });
     } catch (error) {
         console.log(error.message);
         res.status(500).send({message: error.message});
     }
 });
+
+app.put('/books/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const book = await Book.findByIdAndUpdate(id, req.body);
+
+        if(!book){
+            return res.status(404).json({message: 'Book not found'})
+        }
+
+        return res.status(200).send(book);
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).send({message: error.message});
+    }
+});
+
+app.get('/books/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const book = await Book.findById(id);
+        if(!book){
+            return res.status(404).json({message: 'Book not found'});
+        }
+
+        return res.status(200).send(book);
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).send({message: error.message});
+    }
+});
+
+app.delete('/books/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const book = await Book.findByIdAndDelete(id);
+        if(!book){
+            return res.status(404).json({message: 'Book not found'});
+        }
+
+        return res.status(200).json({message: "Book deleted succesfully"});
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).send({message: error.message});
+    }
+});
+
+
 
 
 mongoose.connect(mongoURL).then(()=> {

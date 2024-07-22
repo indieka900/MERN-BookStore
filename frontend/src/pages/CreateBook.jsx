@@ -3,6 +3,7 @@ import {useState} from 'react'
 import { useNavigate } from 'react-router-dom';
 import BackButton from '../components/BackButton';
 import Spinner from '../components/Spinner';
+import { useSnackbar } from 'notistack';
 
 export const CreateBook = () => {
   const [formField, setFormFields] = useState({
@@ -12,6 +13,7 @@ export const CreateBook = () => {
   });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleSaveBook = () => {
     const data = {
@@ -24,11 +26,12 @@ export const CreateBook = () => {
       .post('http://localhost:5500/api/books',data)
       .then(() => {
         setLoading(false);
+        enqueueSnackbar('Book created succesfully',{ variant: 'success'});
         navigate('/')
       })
       .catch((err) => {
         setLoading(false);
-        alert('An error occured')
+        enqueueSnackbar('An error occured', {variant: 'error'});
         console.log(err);
       })
   }

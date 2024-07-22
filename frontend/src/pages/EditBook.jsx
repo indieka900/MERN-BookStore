@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import BackButton from "../components/BackButton";
 import Spinner from "../components/Spinner";
+import { useSnackbar } from 'notistack';
 
 export const EditBook = () => {
   const [formField, setFormFields] = useState({
@@ -14,6 +15,7 @@ export const EditBook = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     setLoading(true);
@@ -44,11 +46,12 @@ export const EditBook = () => {
       .put(`http://localhost:5500/api/books/${id}`, data)
       .then(() => {
         setLoading(false);
+        enqueueSnackbar("Book updated succesfully", {variant: 'success'});
         navigate("/");
       })
       .catch((err) => {
         setLoading(false);
-        alert("An error occured");
+        enqueueSnackbar("An error occured", { variant: 'error' });
         console.log(err);
       });
   };

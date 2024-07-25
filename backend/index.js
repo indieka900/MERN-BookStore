@@ -18,7 +18,7 @@ app.use(cors())
 //     allowedHeaders: ['Content-Type'],
 // }))
 
-app.use('/api', booksRoute);
+app.use('/api/books', booksRoute);
 
 //post to add new book
 
@@ -30,9 +30,3 @@ mongoose.connect(mongoURL).then(()=> {
 }).catch((err) => {
     console.log(err);
 })
-
-// {
-//     "title":"Chozi la Heri",
-//     "author": "Ken Walibora",
-//     "publishYear": 2020
-//   }

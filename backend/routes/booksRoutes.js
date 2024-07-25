@@ -4,7 +4,7 @@ import express from 'express';
 const router = express.Router();
 
 //router to save new book
-router.post('/books', async (req, res) => {
+router.post('/', async (req, res) => {
     try {
         if(
             !req.body.title ||
@@ -29,7 +29,7 @@ router.post('/books', async (req, res) => {
 });
 
 //router to get all books
-router.get('/books', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const books = await Book.find({});
 
@@ -44,7 +44,7 @@ router.get('/books', async (req, res) => {
 });
 
 //router to update book
-router.put('/books/:id', async (req, res) => {
+router.put('/:id', async (req, res) => {
     try {
         const { id } = req.params;
         const book = await Book.findByIdAndUpdate(id, req.body);
@@ -61,7 +61,7 @@ router.put('/books/:id', async (req, res) => {
 });
 
 //router to get one book
-router.get('/books/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
     try {
         const { id } = req.params;
         const book = await Book.findById(id);
@@ -77,7 +77,7 @@ router.get('/books/:id', async (req, res) => {
 });
 
 //router to delete book
-router.delete('/books/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
     try {
         const { id } = req.params;
         const book = await Book.findByIdAndDelete(id);
